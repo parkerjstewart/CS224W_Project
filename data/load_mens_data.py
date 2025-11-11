@@ -15,11 +15,9 @@ All player and match columns from the repo are preserved.
 
 import io
 import sys
-import logging
 import requests
 import pandas as pd
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 RAW_BASE = "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master"
 
@@ -37,7 +35,6 @@ MIN_MATCHES = 5000
 
 def download_csv(url: str) -> pd.DataFrame:
     """Download CSV from GitHub raw URL."""
-    logging.info(f"Downloading {url}")
     r = requests.get(url, timeout=60)
     r.raise_for_status()
     return pd.read_csv(io.StringIO(r.content.decode("utf-8")), low_memory=False)
@@ -75,32 +72,24 @@ def main():
         url = MATCH_URL_TEMPLATE.format(year)
         try:
             df = download_csv(url)
-            logging.info(f"Loaded {len(df)} matches for {year}")
         except Exception as e:
-            logging.warning(f"Skipping {year} due to error: {e}")
             continue
 
         # Keep only matches where both players are in top150
         mask = df["winner_id"].isin(top_ids) & df["loser_id"].isin(top_ids)
         subset = df[mask]
-        logging.info(f"  {len(subset)} matches between top players in {year}")
         all_matches.append(subset)
         total += len(subset)
         if total >= MIN_MATCHES:
-            logging.info(f"Reached {MIN_MATCHES} matches. Stopping collection.")
             break
 
     if not all_matches:
         sys.exit("No matches found among top players.")
     matches = pd.concat(all_matches, ignore_index=True)
-    logging.info(f"Total collected matches: {len(matches)}")
 
     # === Step 4: Write outputs ===
     merged.to_csv(OUT_PLAYERS, index=False)
     matches.to_csv(OUT_MATCHES, index=False)
-
-    logging.info(f"Saved {OUT_PLAYERS} ({len(merged)} players)")
-    logging.info(f"Saved {OUT_MATCHES} ({len(matches)} matches)")
 
 
 if __name__ == "__main__":
