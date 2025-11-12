@@ -2,3 +2,4 @@ numpy
 pandas
 torch
 pytorch-frame
+torch-geometric
