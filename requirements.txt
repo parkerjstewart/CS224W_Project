@@ -1,5 +1,5 @@
 numpy
 pandas
 torch
-pytorch-frame
+torch-frame
 torch-geometric
