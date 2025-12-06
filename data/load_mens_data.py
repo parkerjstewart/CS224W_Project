@@ -41,7 +41,7 @@ def download_csv(url: str) -> pd.DataFrame:
 
 
 def main():
-    # === Step 1: Load data ===
+    # === Step 1: Load player data ===
     players = download_csv(PLAYERS_URL)
     rankings = download_csv(RANKINGS_URL)
 
@@ -86,6 +86,9 @@ def main():
     if not all_matches:
         sys.exit("No matches found among top players.")
     matches = pd.concat(all_matches, ignore_index=True)
+    # after matches = pd.concat(all_matches, ignore_index=True)
+    matches = matches.sort_values("tourney_date", ascending=True).reset_index(drop=True)
+
 
     # === Step 4: Write outputs ===
     merged.to_csv(OUT_PLAYERS, index=False)
