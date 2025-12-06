@@ -1,5 +1,10 @@
+torch
+torchvision
+torchaudio
+torch-geometric
+pytorch-frame
 numpy
 pandas
-torch
-pytorch-frame
-torch-geometric
+tensorboard
+matplotlib
+
