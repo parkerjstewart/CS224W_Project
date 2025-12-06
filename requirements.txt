@@ -1,5 +1,7 @@
 numpy
 pandas
 torch
-torch-frame
+pytorch-frame
 torch-geometric
+tensorboard
+torchvision
