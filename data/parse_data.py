@@ -113,7 +113,6 @@ def get_edges(train_split: float):
 
     return edges
 
-# TODO: come back and fix this once the players data is parsed correctly
 def get_train_val_test_matches(train_split: float, node_embeddings: torch.tensor):
     """
     Splits the matches data into training, validation, and test sets.

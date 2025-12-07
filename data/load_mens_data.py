@@ -24,7 +24,7 @@ RAW_BASE = "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master"
 # Repository files
 PLAYERS_URL = f"{RAW_BASE}/atp_players.csv"
 RANKINGS_URL = f"{RAW_BASE}/atp_rankings_current.csv"
-MATCH_YEARS = [2024, 2023, 2022]
+MATCH_YEARS = [2024, 2023, 2022, 2021, 2020, 2019, 2018]
 MATCH_URL_TEMPLATE = f"{RAW_BASE}/atp_matches_{{}}.csv"
 
 # Output files
@@ -80,8 +80,8 @@ def main():
         subset = df[mask]
         all_matches.append(subset)
         total += len(subset)
-        if total >= MIN_MATCHES:
-            break
+        #if total >= MIN_MATCHES:
+            #break
 
     if not all_matches:
         sys.exit("No matches found among top players.")
